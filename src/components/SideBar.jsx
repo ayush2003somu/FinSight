@@ -3,11 +3,11 @@ function SideBar(){
     // const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const isSidebarOpen = true;
     return(
-    <aside className={`bg-white w-72 border-r border-slate-200 transition-transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
+    <aside className={`bg-white w-64 border-r border-slate-200 transition-transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
         <div className="p-8">
           <div className="flex items-center gap-2 text-blue-600 mb-10">
             <LayoutDashboard size={28} />
-            <span className="text-2xl font-black tracking-tight">FinTrack</span>
+            <span className="text-2xl font-black tracking-tight">FinSight</span>
           </div>
 
           <nav className="space-y-1">
