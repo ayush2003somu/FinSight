@@ -33,17 +33,17 @@ const sortedTransactions = [...filteredTransactions].sort((a, b) => {
   return 0;
 });
   return (
-    //bg-  #f8fafc
+    //bg-
     
-    <div className="min-h-screen bg-[#f8fafc] flex font-sans text-slate-900">
+<div className="min-h-screen bg-[#f8fafc] flex justify-center items-center py-6">
+      <div className="w-full max-w-[1400px] bg-white rounded-xl shadow-md flex border border-gray-100 overflow-hidden">
       {/* Sidebar with dynamic active states */}
       <SideBar/>
       <main className="flex-1 overflow-y-auto">
               <NavBar/>
         <div className="p-8 max-w-7xl mx-auto">
-          <header className="mb-10">
-            <h1 className="text-3xl font-extrabold tracking-tight">Financial Overview</h1>
-            <p className="text-slate-500 mt-1">Welcome back! Here is what's happening with your money.</p>
+          <header className="mb-5">
+            <p className="text-slate-500 ">Welcome back! Here is what's happening with your money.</p>
           </header>
 
         {/* Grid using the sub-component */}
@@ -61,6 +61,7 @@ const sortedTransactions = [...filteredTransactions].sort((a, b) => {
         <TransactionsTable transactions={sortedTransactions}/>
         </div>
       </main>
+      </div>
     </div>
   );
 }
