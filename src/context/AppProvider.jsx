@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { AppContext } from "./appContext";
 import { RECENT_TRANSACTIONS } from "../data/mockData";
 
@@ -9,6 +9,22 @@ export const AppProvider = ({ children }) => {
   const [sortBy, setSortBy] = useState("date"); 
   const [order, setOrder] = useState("desc"); // asc | desc
 
+  // this is done so that browser remember's the user preference(dark or light);
+  const [isDark,setIsDark] = useState(
+    () => localStorage.getItem('theme') === 'dark'
+  );
+
+  //  whenever isDark(Boolean) changes, useEffect runs and theme get updated in local Storage 
+useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDark]);
+  const toggleDark = () => setIsDark(prev => !prev);
   return (
     <AppContext.Provider
       value={{
@@ -21,7 +37,9 @@ export const AppProvider = ({ children }) => {
         sortBy,
         setSortBy,
         order,
-        setOrder
+        setOrder,
+        isDark,
+        toggleDark
       }}
     >
       {children}
