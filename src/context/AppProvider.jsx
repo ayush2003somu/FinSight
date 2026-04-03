@@ -1,5 +1,5 @@
-import { useState,useEffect } from "react";
-import { AppContext } from "./appContext";
+import { useState, useEffect } from "react";
+import { AppContext } from "./AppContext";
 import { RECENT_TRANSACTIONS } from "../data/mockData";
 
 export const AppProvider = ({ children }) => {
@@ -8,23 +8,26 @@ export const AppProvider = ({ children }) => {
   const [filter, setFilter] = useState("all"); 
   const [sortBy, setSortBy] = useState("date"); 
   const [order, setOrder] = useState("desc"); // asc | desc
+  const [balance,showBalance] = useState(false);
+  const [selectedPeriod,setPeriod] = useState('1M');
 
   // this is done so that browser remember's the user preference(dark or light);
-  const [isDark,setIsDark] = useState(
-    () => localStorage.getItem('theme') === 'dark'
-  );
-
-  //  whenever isDark(Boolean) changes, useEffect runs and theme get updated in local Storage 
-useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
+  const [isDark, setIsDark] = useState(() => {
+    const savedTheme = localStorage.getItem("theme");
+    return savedTheme === "dark";
+  });
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDark);
+    localStorage.setItem("theme", isDark ? "dark" : "light");
   }, [isDark]);
-  const toggleDark = () => setIsDark(prev => !prev);
+  const toggleDark = () => {
+    setIsDark((prev) => {
+      const nextTheme = !prev;
+      document.documentElement.classList.toggle("dark", nextTheme);
+      localStorage.setItem("theme", nextTheme ? "dark" : "light");
+      return nextTheme;
+    });
+  };
   return (
     <AppContext.Provider
       value={{
@@ -39,7 +42,11 @@ useEffect(() => {
         order,
         setOrder,
         isDark,
-        toggleDark
+        toggleDark,
+        balance,
+        showBalance,
+        selectedPeriod,
+        setPeriod
       }}
     >
       {children}
