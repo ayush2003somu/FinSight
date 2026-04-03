@@ -83,20 +83,18 @@ export default function FinTrackDashboard() {
             </header>
             <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-  {/* LEFT: 2x2 CARDS */}
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <StatCard
                     title="Total Balance"
                     value={totalBalance}
                     type="balance"
-                    delta={periodNet}
-                    deltaLabel={`this ${selectedPeriod}`}
+      v            delta={periodNet}
+                    deltaLabel={`(${selectedPeriod})`}
                   />
 
-                    <StatCard title="Income" value={income} type="income" />
+                 <StatCard title="Income" value={income} type="income" />
 
-                    <StatCard title="Expenses" value={expenses} type="expense" />
-
+                  <StatCard title="Expenses" value={expenses} type="expense" />
                     <StatCard
                       title="Saving Score"
                       value={`${healthScore}/100`}
@@ -104,14 +102,12 @@ export default function FinTrackDashboard() {
                       saving={savingScore}
                     />
                   </div>
-
-                  {/* RIGHT: GRAPH */}
                   <div className="min-h-[312px] rounded-2xl border border-dashed border-slate-300 bg-slate-50/80 p-6 dark:border-slate-700 dark:bg-slate-900/60">
                     <div className="flex h-full items-center justify-center rounded-xl border border-slate-200/80 bg-white/70 text-sm font-medium text-slate-500 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-400">
                       Graph and pie chart area
                     </div>
                   </div>
-           </section>
+        </section>
             <TransactionsTable transactions={sortedTransactions} />
           </div>
         </main>

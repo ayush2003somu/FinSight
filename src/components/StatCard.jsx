@@ -34,8 +34,8 @@ const StatCard = ({ title, value, type, saving, delta, deltaLabel }) => {
     <div
       className={`h-36 rounded-2xl border p-6 shadow-sm transition-all duration-200 ease-in-out hover:shadow-md ${cardStyles}`}
     >
-      <div className="flex h-full flex-col justify-center gap-2">
-        <div className="flex items-center justify-between gap-4">
+      <div className="flex h-full flex-col justify-start gap-4">
+        <div className="flex items-center justify-start gap-4">
           <p className="text-sm font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
             {title}
           </p>
@@ -45,7 +45,7 @@ const StatCard = ({ title, value, type, saving, delta, deltaLabel }) => {
               type="button"
               aria-label={balance ? "Hide balance" : "Show balance"}
               onClick={() => showBalance(!balance)}
-              className="rounded-lg p-2 text-slate-400 transition-all duration-200 ease-in-out hover:bg-slate-100 hover:text-slate-600 dark:text-slate-500 dark:hover:bg-slate-800 dark:hover:text-slate-300"
+              className="rounded-lg text-slate-400 transition-all duration-200 ease-in-out hover:bg-slate-100 hover:text-slate-600 dark:text-slate-500 dark:hover:bg-slate-800 dark:hover:text-slate-300"
             >
               {balance ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
