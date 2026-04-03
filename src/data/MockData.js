@@ -1,26 +1,52 @@
 export const RECENT_TRANSACTIONS = [
-  { id: 1, date: '2026-01-03', mcc: '6011', amount: 50000, type: 'income', description: 'Bank Transfer' }, // Salary
-  { id: 2, date: '2026-01-05', mcc: '5812', amount: 200, type: 'expense', description: 'Zomato' }, // Food & Dining
-  { id: 3, date: '2026-01-07', mcc: '6513', amount: 22000, type: 'expense', description: 'Paytm' }, // Rent
-  { id: 4, date: '2026-01-08', mcc: '4900', amount: 3500, type: 'expense', description: 'Google Pay' }, // Utilities
-  { id: 5, date: '2026-01-10', mcc: '5411', amount: 1200, type: 'expense', description: 'BigBasket' }, // Groceries
-  { id: 6, date: '2026-02-01', mcc: '6012', amount: 5000, type: 'income', description: 'Groww' }, // Investment
-  { id: 7, date: '2026-02-03', mcc: '4111', amount: 400, type: 'expense', description: 'Uber' }, // Transport
-  { id: 8, date: '2026-02-05', mcc: '5311', amount: 2500, type: 'expense', description: 'Amazon' }, // Shopping
-  { id: 9, date: '2026-02-07', mcc: '6011', amount: 8000, type: 'income', description: 'Company Portal' }, // Bonus
-  { id: 10, date: '2026-02-09', mcc: '5912', amount: 600, type: 'expense', description: 'PharmEasy' }, // Medical
-  { id: 11, date: '2026-02-11', mcc: '7832', amount: 900, type: 'expense', description: 'Netflix' }, // Entertainment
-  { id: 12, date: '2026-03-01', mcc: '6011', amount: 51000, type: 'income', description: 'Bank Transfer' }, // Salary
-  { id: 13, date: '2026-03-03', mcc: '5812', amount: 250, type: 'expense', description: 'Swiggy' }, // Food & Dining
-  { id: 14, date: '2026-03-05', mcc: '6513', amount: 22500, type: 'expense', description: 'PhonePe' }, // Rent
-  { id: 15, date: '2026-03-07', mcc: '4900', amount: 3400, type: 'expense', description: 'Google Pay' }, // Utilities
-  { id: 16, date: '2026-03-09', mcc: '5411', amount: 1300, type: 'expense', description: 'Dunzo' }, // Groceries
-  { id: 17, date: '2026-03-11', mcc: '6012', amount: 5200, type: 'income', description: 'Zerodha' }, // Investment
-  { id: 18, date: '2026-03-13', mcc: '4111', amount: 450, type: 'expense', description: 'Ola' }, // Transport
-  { id: 19, date: '2026-03-15', mcc: '5311', amount: 2600, type: 'expense', description: 'Flipkart' }, // Shopping
-  { id: 20, date: '2026-03-17', mcc: '6011', amount: 8500, type: 'income', description: 'Company Portal' }, // Bonus
-  { id: 21, date: '2026-03-19', mcc: '5912', amount: 700, type: 'expense', description: '1mg' }, // Medical
-  { id: 22, date: '2026-03-21', mcc: '7832', amount: 950, type: 'expense', description: 'BookMyShow' }, // Entertainment
+  // October 2025
+  { id: 1, date: '2025-10-03', mcc: '6011', amount: 67000, type: 'income', description: 'Bank Transfer' }, // Salary
+  { id: 2, date: '2025-10-05', mcc: '5812', amount: 210, type: 'expense', description: 'Zomato' }, // Food & Dining
+  { id: 3, date: '2025-10-07', mcc: '6513', amount: 12000, type: 'expense', description: 'Paytm' }, // Rent
+  { id: 4, date: '2025-10-08', mcc: '4900', amount: 3400, type: 'expense', description: 'Google Pay' }, // Utilities
+  { id: 5, date: '2025-10-10', mcc: '5411', amount: 1100, type: 'expense', description: 'BigBasket' }, // Groceries
+  { id: 6, date: '2025-11-01', mcc: '6012', amount: 4800, type: 'income', description: 'Groww' }, // Investment
+  { id: 7, date: '2025-11-03', mcc: '4111', amount: 390, type: 'expense', description: 'Uber' }, // Transport
+  { id: 8, date: '2025-11-05', mcc: '5311', amount: 2400, type: 'expense', description: 'Amazon' }, // Shopping
+  { id: 9, date: '2025-11-07', mcc: '6011', amount: 7800, type: 'income', description: 'Company Portal' }, // Bonus
+  { id: 10, date: '2025-11-09', mcc: '5912', amount: 550, type: 'expense', description: 'PharmEasy' }, // Medical
+  { id: 11, date: '2025-11-11', mcc: '7832', amount: 850, type: 'expense', description: 'Netflix' }, // Entertainment
+  { id: 12, date: '2025-12-01', mcc: '6011', amount: 69000, type: 'income', description: 'Bank Transfer' }, // Salary
+  { id: 13, date: '2025-12-03', mcc: '5812', amount: 230, type: 'expense', description: 'Swiggy' }, // Food & Dining
+  { id: 14, date: '2025-12-05', mcc: '6513', amount: 12500, type: 'expense', description: 'PhonePe' }, // Rent
+  { id: 15, date: '2025-12-07', mcc: '4900', amount: 3200, type: 'expense', description: 'Google Pay' }, // Utilities
+  { id: 16, date: '2025-12-09', mcc: '5411', amount: 1200, type: 'expense', description: 'Dunzo' }, // Groceries
+  { id: 17, date: '2025-12-11', mcc: '6012', amount: 5000, type: 'income', description: 'Zerodha' }, // Investment
+  { id: 18, date: '2025-12-13', mcc: '4111', amount: 420, type: 'expense', description: 'Ola' }, // Transport
+  { id: 19, date: '2025-12-15', mcc: '5311', amount: 2500, type: 'expense', description: 'Flipkart' }, // Shopping
+  { id: 20, date: '2025-12-17', mcc: '6011', amount: 8000, type: 'income', description: 'Company Portal' }, // Bonus
+  { id: 21, date: '2025-12-19', mcc: '5912', amount: 650, type: 'expense', description: '1mg' }, // Medical
+  { id: 22, date: '2025-12-21', mcc: '7832', amount: 900, type: 'expense', description: 'BookMyShow' }, // Entertainment
+  // January 2026
+  { id: 23, date: '2026-01-03', mcc: '6011', amount: 68000, type: 'income', description: 'Bank Transfer' }, // Salary
+  { id: 24, date: '2026-01-05', mcc: '5812', amount: 200, type: 'expense', description: 'Zomato' }, // Food & Dining
+  { id: 25, date: '2026-01-07', mcc: '6513', amount: 12000, type: 'expense', description: 'Paytm' }, // Rent
+  { id: 26, date: '2026-01-08', mcc: '4900', amount: 3500, type: 'expense', description: 'Google Pay' }, // Utilities
+  { id: 27, date: '2026-01-10', mcc: '5411', amount: 1200, type: 'expense', description: 'BigBasket' }, // Groceries
+  // February 2026
+  { id: 28, date: '2026-02-01', mcc: '6012', amount: 5000, type: 'income', description: 'Groww' }, // Investment
+  { id: 29, date: '2026-02-03', mcc: '4111', amount: 400, type: 'expense', description: 'Uber' }, // Transport
+  { id: 30, date: '2026-02-05', mcc: '5311', amount: 2500, type: 'expense', description: 'Amazon' }, // Shopping
+  { id: 31, date: '2026-02-07', mcc: '6011', amount: 8000, type: 'income', description: 'Company Portal' }, // Bonus
+  { id: 32, date: '2026-02-09', mcc: '5912', amount: 600, type: 'expense', description: 'PharmEasy' }, // Medical
+  { id: 33, date: '2026-02-11', mcc: '7832', amount: 900, type: 'expense', description: 'Netflix' }, // Entertainment
+  // March 2026
+  { id: 34, date: '2026-03-01', mcc: '6011', amount: 71000, type: 'income', description: 'Bank Transfer' }, // Salary
+  { id: 35, date: '2026-03-03', mcc: '5812', amount: 250, type: 'expense', description: 'Swiggy' }, // Food & Dining
+  { id: 36, date: '2026-03-05', mcc: '6513', amount: 22500, type: 'expense', description: 'PhonePe' }, // Rent
+  { id: 37, date: '2026-03-07', mcc: '4900', amount: 3400, type: 'expense', description: 'Google Pay' }, // Utilities
+  { id: 38, date: '2026-03-09', mcc: '5411', amount: 1300, type: 'expense', description: 'Dunzo' }, // Groceries
+  { id: 39, date: '2026-03-11', mcc: '6012', amount: 5200, type: 'income', description: 'Zerodha' }, // Investment
+  { id: 40, date: '2026-03-13', mcc: '4111', amount: 450, type: 'expense', description: 'Ola' }, // Transport
+  { id: 41, date: '2026-03-15', mcc: '5311', amount: 2600, type: 'expense', description: 'Flipkart' }, // Shopping
+  { id: 42, date: '2026-03-17', mcc: '6011', amount: 8500, type: 'income', description: 'Company Portal' }, // Bonus
+  { id: 43, date: '2026-03-19', mcc: '5912', amount: 700, type: 'expense', description: '1mg' }, // Medical
+  { id: 44, date: '2026-03-21', mcc: '7832', amount: 950, type: 'expense', description: 'BookMyShow' }, // Entertainment
 ];
 export const MCC_MAP = {
   "5411": "Groceries",
