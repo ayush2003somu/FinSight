@@ -4,6 +4,7 @@ import StatCard from "../components/StatCard";
 import TransactionsTable from "../components/TransactionsTable";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
+import BarCharts from '../components/BarCharts';
 
 function getTransactionsByDateRange(transactions, selectedPeriod) {
   const now = new Date();
@@ -48,6 +49,29 @@ export default function FinTrackDashboard() {
   const savingScore = income === 0 ? 0 : ((income - expenses) / income) * 100;
   const healthScore = Math.min(100, Math.max(0, Math.round(savingScore * 1.5)));
 
+  // Grouping by monrh for bar charts
+  const monthlyData = filteredTransactionsByDateRange.reduce((acc, t) => {
+  const month = new Date(t.date).toLocaleString('default', { month: 'short' });
+  
+  if (!acc[month]) acc[month] = { month, income: 0, expenses: 0 };
+  
+  if (t.type === 'income') acc[month].income += t.amount;
+  else acc[month].expenses += t.amount;
+  
+  return acc;
+  }, {});
+  const barChartData = Object.values(monthlyData);
+
+  // grouping for pie charts
+  // const categoryData = filteredTransactionsByDateRange
+  // .filter(t => t.type === 'expense')
+  // .reduce((acc, t) => {
+  //   const found = acc.find(item => item.name === t.category);
+  //   if (found) found.value += t.amount;
+  //   else acc.push({ name: t.category, value: t.amount });
+  //   return acc;
+  // }, []);
+
   const filteredTransactions =
     filter === "all"
       ? filteredTransactionsByDateRange
@@ -88,7 +112,7 @@ export default function FinTrackDashboard() {
                     title="Total Balance"
                     value={totalBalance}
                     type="balance"
-      v            delta={periodNet}
+                    delta={periodNet}
                     deltaLabel={`(${selectedPeriod})`}
                   />
 
@@ -102,9 +126,13 @@ export default function FinTrackDashboard() {
                       saving={savingScore}
                     />
                   </div>
-                  <div className="min-h-[312px] rounded-2xl border border-dashed border-slate-300 bg-slate-50/80 p-6 dark:border-slate-700 dark:bg-slate-900/60">
-                    <div className="flex h-full items-center justify-center rounded-xl border border-slate-200/80 bg-white/70 text-sm font-medium text-slate-500 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-400">
-                      Graph and pie chart area
+                  <div className="min-h-[312px] rounded-2xl border border-dashed border-slate-300 bg-slate-50/80 p-6 dark:border-slate-700 dark:bg-slate-900/60">  
+                  <div className="bg-white border border-slate-200 rounded-2xl p-5
+                  dark:bg-slate-800 dark:border-slate-700">
+                    <p className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-4">
+                    Income vs Expenses
+                    </p>
+                    <BarCharts data={barChartData} />
                     </div>
                   </div>
         </section>
