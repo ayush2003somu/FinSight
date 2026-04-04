@@ -36,7 +36,26 @@ const TransactionsTable = ({ transactions }) => {
     setSortBy(column);
     setOrder(sortBy === column && order === "asc" ? "desc" : "asc");
   };
+    const filteredTransactions =
+    filter === "all"
+      ? transactions
+      : transactions.filter(
+          (transaction) => transaction.type === filter,
+        );
 
+  const sortedTransactions = [...filteredTransactions].sort((a, b) => {
+    if (sortBy === "amount") {
+      return order === "asc" ? a.amount - b.amount : b.amount - a.amount;
+    }
+    if (sortBy === "date") {
+      return order === "asc"
+        ? new Date(a.date) - new Date(b.date)
+        : new Date(b.date) - new Date(a.date);
+    }
+
+    return 0;
+  });
+  transactions = sortedTransactions;
   return (
     <section className="mt-6 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 p-4 dark:border-slate-800">
@@ -49,7 +68,7 @@ const TransactionsTable = ({ transactions }) => {
             {FILTER_OPTIONS.map((option) => {
               const isActive = filter === option.value;
 
-              return (
+             return (
                <button
                   key={option.label}
                  type="button"
@@ -126,7 +145,7 @@ const TransactionsTable = ({ transactions }) => {
                     className={`px-6 py-4 text-sm font-semibold ${
                     transaction.type === "income"
                     ? "text-emerald-600 dark:text-emerald-400"
-                        : "text-slate-900 dark:text-slate-100"
+                      : "text-rose-600 dark:text-rose-100"
                     }`}
                   >
                     {formatAmount(transaction)}

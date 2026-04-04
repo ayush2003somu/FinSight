@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { AppContext } from "../context/AppContext";
-
+import { SquareArrowUpRight , SquareArrowDownLeft , HandCoins } from "lucide-react";
 const formatCurrency = (value) => `₹${value.toLocaleString()}`;
 
 const StatCard = ({ title, value, type, saving, delta, deltaLabel }) => {
@@ -12,7 +12,7 @@ const StatCard = ({ title, value, type, saving, delta, deltaLabel }) => {
       ? saving > 60
         ? "bg-emerald-50 border-emerald-200 text-emerald-600 dark:bg-emerald-900/20 dark:border-emerald-700 dark:text-emerald-400": 
         "bg-rose-50 border-rose-200 text-rose-600 dark:bg-rose-900/20 dark:border-rose-700 dark:text-rose-400"
-      : "bg-white border-slate-200 dark:bg-slate-900 dark:border-slate-700";
+      : "bg-white border-slate-300 dark:bg-slate-900 dark:border-slate-700";
 
   const valueStyles =
     type === "income"
@@ -49,6 +49,11 @@ const StatCard = ({ title, value, type, saving, delta, deltaLabel }) => {
             >
               {balance ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
+            
+          )}
+          {type!="balance" &&(
+            type==="income"?<SquareArrowDownLeft className="text-emerald-600 dark:text-emerald-400" size={20}/>:
+            type==="expense"?<SquareArrowUpRight className="text-rose-600 dark:text-rose-400" size={20}/>:<HandCoins className="text-yellow-600" size={20}/> 
           )}
         </div>
 
