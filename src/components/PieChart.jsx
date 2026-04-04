@@ -1,7 +1,18 @@
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
-
-// These colors match your slate/emerald/rose system
-const COLORS = ['#f43f5e', '#3b82f6', '#f59e0b', '#8b5cf6', '#06b6d4', '#10b981'];
+const COLORS = [
+    '#f43f5e', 
+    '#3b82f6', 
+    '#f59e0b', 
+    '#8b5cf6', 
+    '#06b6d4', 
+    '#10b981', 
+    '#6366f1', 
+    '#eab308', 
+    '#14b8a6', 
+    '#ef4444', 
+    '#22d3ee', 
+    '#84cc16', 
+];
 
 export default function SpendingDonut({ data }) {
 
@@ -30,7 +41,7 @@ export default function SpendingDonut({ data }) {
   };
 
   return (
-    <ResponsiveContainer width="100%" height={160}>
+    <ResponsiveContainer width="100%" height={175}>
       <PieChart>
         <Pie
           data={data}
@@ -40,9 +51,14 @@ export default function SpendingDonut({ data }) {
           outerRadius={60}
           paddingAngle={3}
           dataKey="value"
+          activeShape={{ outerRadius: 65 }} 
         >
           {data.map((entry, index) => (
-            <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />
+            <Cell
+             key={entry.name} 
+            fill={COLORS[index % COLORS.length]}
+            className="cursor-pointer"
+             />
           ))}
         </Pie>
         <Tooltip content={({ active, payload }) => <CustomTooltip active={active} payload={payload} total={total} />} />
