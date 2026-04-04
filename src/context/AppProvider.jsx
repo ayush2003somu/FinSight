@@ -11,6 +11,9 @@ export const AppProvider = ({ children }) => {
   const [balance,showBalance] = useState(false);
   const [selectedPeriod,setPeriod] = useState('1M');
   const [SelectedBar,setBar] = useState(true);
+  const [currentPage, setCurrentPage] = useState("dashboard");
+  const [isOpen,setIsOpen] = useState("true");
+
   // this is done so that browser remember's the user preference(dark or light);
   const [isDark, setIsDark] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -48,7 +51,11 @@ export const AppProvider = ({ children }) => {
         selectedPeriod,
         setPeriod,
         SelectedBar,
-        setBar
+        setBar,
+        currentPage,
+        setCurrentPage,
+        isOpen,
+        setIsOpen
       }}
     >
       {children}
