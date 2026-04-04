@@ -4,7 +4,10 @@ import StatCard from "../components/StatCard";
 import TransactionsTable from "../components/TransactionsTable";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
-
+import BarCharts from '../components/BarCharts';
+import SpendingDonut from "../components/PieChart";
+import { MCC_MAP } from '../data/mockData';
+import { PieChart } from "lucide-react";
 function getTransactionsByDateRange(transactions, selectedPeriod) {
   const now = new Date();
   const cutoff = new Date(now);
@@ -22,7 +25,7 @@ function getTransactionsByDateRange(transactions, selectedPeriod) {
 }
 
 export default function FinTrackDashboard() {
-  const { transactions, filter, sortBy, order, selectedPeriod } =
+  const { transactions, filter, sortBy, order, selectedPeriod, SelectedBar,setBar} =
     useContext(AppContext);
 
   const filteredTransactionsByDateRange = getTransactionsByDateRange(
@@ -48,6 +51,30 @@ export default function FinTrackDashboard() {
   const savingScore = income === 0 ? 0 : ((income - expenses) / income) * 100;
   const healthScore = Math.min(100, Math.max(0, Math.round(savingScore * 1.5)));
 
+  // Grouping by month for bar charts
+  const monthlyData = filteredTransactionsByDateRange.reduce((acc, t) => {
+  const month = new Date(t.date).toLocaleString('default', { month: 'short' });
+  
+  if (!acc[month]) acc[month] = { month, income: 0, expenses: 0 };
+  
+  if (t.type === 'income') acc[month].income += t.amount;
+  else acc[month].expenses += t.amount;
+  
+  return acc;
+  }, {});
+  const barChartData = Object.values(monthlyData);
+
+  // grouping for pie charts
+  const categoryData = filteredTransactionsByDateRange
+  .filter(t => t.type === 'expense')
+  .reduce((acc, t) => {
+    const categoryName = MCC_MAP[t.mcc] || 'Other';
+    const found = acc.find(item => item.name === categoryName  );
+    if (found) found.value += t.amount;
+    else acc.push({ name: categoryName, value: t.amount });
+    return acc;
+  }, []);
+
   const filteredTransactions =
     filter === "all"
       ? filteredTransactionsByDateRange
@@ -71,7 +98,7 @@ export default function FinTrackDashboard() {
 
   return (
     <div className="min-h-screen bg-slate-100 px-4 py-6 dark:bg-slate-950 sm:px-6">
-      <div className="mx-auto flex w-full max-w-[1400px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <div className="mx-auto flex w-full max-w-[1400px] overflow-hidden rounded-2xl border border-slate-200 bg-gray-100 shadow-sm dark:border-slate-800 dark:bg-slate-900">
         <SideBar />
         <main className="flex-1 overflow-y-auto">
           <NavBar />
@@ -88,7 +115,7 @@ export default function FinTrackDashboard() {
                     title="Total Balance"
                     value={totalBalance}
                     type="balance"
-      v            delta={periodNet}
+                    delta={periodNet}
                     deltaLabel={`(${selectedPeriod})`}
                   />
 
@@ -102,10 +129,22 @@ export default function FinTrackDashboard() {
                       saving={savingScore}
                     />
                   </div>
-                  <div className="min-h-[312px] rounded-2xl border border-dashed border-slate-300 bg-slate-50/80 p-6 dark:border-slate-700 dark:bg-slate-900/60">
-                    <div className="flex h-full items-center justify-center rounded-xl border border-slate-200/80 bg-white/70 text-sm font-medium text-slate-500 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-400">
-                      Graph and pie chart area
+                  <div className="min-h-[312px] rounded-2xl border border border-slate-300 bg-slate-50/80 p-4 dark:border-slate-700 dark:bg-slate-900/60">  
+                     <p className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-4 flex justify-between items-center">
+                    {SelectedBar?`Income vs Expenses`:`PieChart`}
+                    <button onClick={()=>{
+                      setBar(!SelectedBar)
+                    }} className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-500 transition-all duration-200 ease-in-out hover:bg-slate-50 hover:text-slate-700 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100">Pie Chart</button>
+                    </p>
+                  {SelectedBar?<div className="bg-white border border-slate-200 rounded-2xl p-5
+                  dark:bg-slate-800 dark:border-slate-700">
+                    <BarCharts data={barChartData} />
+                    </div>:
+                    <div className="bg-white border border-slate-200 rounded-2xl p-5
+                  dark:bg-slate-800 dark:border-slate-700">
+                    <SpendingDonut data={categoryData} />
                     </div>
+                    }
                   </div>
         </section>
             <TransactionsTable transactions={sortedTransactions} />
