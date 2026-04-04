@@ -6,6 +6,7 @@ import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import BarCharts from '../components/BarCharts';
 import SpendingDonut from "../components/PieChart";
+import { MCC_MAP } from '../data/mockData';
 import { PieChart } from "lucide-react";
 function getTransactionsByDateRange(transactions, selectedPeriod) {
   const now = new Date();
@@ -67,9 +68,10 @@ export default function FinTrackDashboard() {
   const categoryData = filteredTransactionsByDateRange
   .filter(t => t.type === 'expense')
   .reduce((acc, t) => {
-    const found = acc.find(item => item.name === t.category);
+    const categoryName = MCC_MAP[t.mcc] || 'Other';
+    const found = acc.find(item => item.name === categoryName  );
     if (found) found.value += t.amount;
-    else acc.push({ name: t.category, value: t.amount });
+    else acc.push({ name: categoryName, value: t.amount });
     return acc;
   }, []);
 
