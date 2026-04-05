@@ -9,7 +9,7 @@ function SideBar() {
   <div className="p-8">
     <div className="mb-10 flex items-center gap-3">
       <LayoutDashboard className="text-slate-400" size={20} />
-      <span className="text-2xl font-bold">FinSight</span>
+      <span className="text-2xl font-bold dark:text-slate-100">FinSight</span>
     </div>
 
     <nav>
@@ -22,11 +22,11 @@ function SideBar() {
             onClick={() => setCurrentPage(key)}
             className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition ${
               isActive
-                ? "bg-slate-100 dark:bg-slate-800"
-                : "text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800"
+                ? "bg-slate-100 dark:bg-slate-800 dark:text-slate-100"
+                : "text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 dark:text-slate-400"
             }`}
           >
-            <Icon size={18} />
+            {Icon && <Icon size={18} />}
             {name}
           </button>
         );

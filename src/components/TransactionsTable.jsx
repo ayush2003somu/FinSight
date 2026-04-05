@@ -29,7 +29,7 @@ const SortIcon = ({ active, order }) => {
 };
 
 const TransactionsTable = ({ transactions }) => {
-  const { filter, setFilter, sortBy, setSortBy, order, setOrder } =
+  const { filter, setFilter, sortBy, setSortBy, order, setOrder,admin } =
     useContext(AppContext);
 
   const toggleSort = (column) => {
@@ -64,7 +64,7 @@ const TransactionsTable = ({ transactions }) => {
         </h2>
 
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 p-1 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+          <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 p-1 shadow-sm dark:border-slate-700 dark:bg-slate-800 mr-auto">
             {FILTER_OPTIONS.map((option) => {
               const isActive = filter === option.value;
 
@@ -73,7 +73,7 @@ const TransactionsTable = ({ transactions }) => {
                   key={option.label}
                  type="button"
                   onClick={() => setFilter(option.value)}
-                className={`rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 ease-in-out ${
+                className={`rounded-lg px-2 py-1 md:px-4 md:py-2 text-sm font-medium transition-all duration-200 ease-in-out ${
                     isActive
                       ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-slate-100"
                       : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
@@ -120,6 +120,10 @@ const TransactionsTable = ({ transactions }) => {
                <th className="px-6 py-4 text-sm font-semibold text-slate-500 dark:text-slate-400">
                   STATUS
                 </th>
+
+                {admin && <th className="px-6 py-4 text-sm font-semibold text-slate-500 dark:text-slate-400">
+                  ACTION
+                </th>}
               </tr>
             </thead>
 
@@ -161,6 +165,21 @@ const TransactionsTable = ({ transactions }) => {
                       {transaction.type}
                     </span>
               </td>
+              {admin && (
+              <td className="flex p-2 mt-4">
+                    <button className="text-xs px-2.5 py-1 rounded-lg border border-slate-200
+                                      text-slate-500 hover:bg-slate-50 mr-2">
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => dispatch({ type: 'DELETE_TRANSACTION', payload: t.id })}
+                      className="text-xs px-2.5 py-1 rounded-lg border border-rose-200
+                                text-rose-500 hover:bg-rose-50"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                )}
                 </tr>
               ))}
             </tbody>

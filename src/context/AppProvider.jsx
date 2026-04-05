@@ -4,7 +4,7 @@ import { RECENT_TRANSACTIONS } from "../data/mockData";
 
 export const AppProvider = ({ children }) => {
   const [transactions, setTransactions] = useState(RECENT_TRANSACTIONS);
-  const [role, setRole] = useState("viewer");
+  const [admin, setAdminRole] = useState(false);
   const [filter, setFilter] = useState("all"); 
   const [sortBy, setSortBy] = useState("date"); 
   const [order, setOrder] = useState("desc"); // asc or desc
@@ -36,8 +36,8 @@ export const AppProvider = ({ children }) => {
       value={{
         transactions,
         setTransactions,
-        role,
-        setRole,
+        admin,
+        setAdminRole,
         filter,
         setFilter,
         sortBy,
