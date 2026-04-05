@@ -1,98 +1,120 @@
-import { useContext, useState } from 'react';
-import { AppContext } from '../context/AppContext';
+import { useContext, useState } from "react";
+import { AppContext } from "../context/AppContext";
 
-export default function AddTransactionModal({ onClose }) {
+const CATEGORY_OPTIONS = [
+  { mcc: "5411", label: "Groceries" },
+  { mcc: "5812", label: "Food & Dining" },
+  { mcc: "4111", label: "Transport" },
+  { mcc: "4900", label: "Utilities" },
+  { mcc: "5311", label: "Shopping" },
+  { mcc: "5912", label: "Medical" },
+  { mcc: "7832", label: "Entertainment" },
+  { mcc: "6513", label: "Rent / Real Estate" },
+  { mcc: "6011", label: "Salary / Bank Transfer" },
+  { mcc: "6012", label: "Investments" },
+];
+
+const DEFAULT_FORM = {
+  description: "",
+  amount: "",
+  type: "expense",
+  mcc: "5411",
+  date: new Date().toISOString().split("T")[0],
+};
+
+export default function AddTransactionModal({ onClose, transactionToEdit = null }) {
   const { dispatch } = useContext(AppContext);
-  const [form, setForm] = useState({
-    description: '',
-    amount: '',
-    type: 'expense',
-    category: '',
-    date: new Date().toISOString().split('T')[0], // today's date
-  });
+  const isEditMode = Boolean(transactionToEdit);
+
+  const [form, setForm] = useState(() =>
+    transactionToEdit
+      ? {
+          description: transactionToEdit.description,
+          amount: String(transactionToEdit.amount),
+          type: transactionToEdit.type,
+          mcc: transactionToEdit.mcc,
+          date: transactionToEdit.date,
+        }
+      : DEFAULT_FORM,
+  );
 
   function handleChange(e) {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
   function handleSubmit() {
-    // basic validation
-    if (!form.description || !form.amount || !form.date) return;
+    if (!form.description || !form.amount || !form.date || !form.mcc) return;
+
+    const nextTransaction = {
+      id: transactionToEdit?.id ?? Date.now(),
+      description: form.description.trim(),
+      amount: Number(form.amount),
+      type: form.type,
+      date: form.date,
+      mcc: form.mcc,
+    };
 
     dispatch({
-      type: 'ADD_TRANSACTION',
-      payload: {
-        ...form,
-        amount: Number(form.amount), // convert string to number
-        mcc: '9999',                 // default mcc for manually added
-        id: Date.now(),
-      }
+      type: isEditMode ? "EDIT_TRANSACTION" : "ADD_TRANSACTION",
+      payload: nextTransaction,
     });
 
     onClose();
   }
 
   return (
-    // dark overlay behind modal
     <div
-      className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center"
-      onClick={onClose} // clicking outside closes it
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
+      onClick={onClose}
     >
-      {/* modal box — stop click from bubbling to overlay */}
       <div
-        className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200
-                   dark:border-slate-700 p-6 w-full max-w-md mx-4"
-        onClick={e => e.stopPropagation()}
+        className="mx-4 w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-700 dark:bg-slate-800"
+        onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between mb-5">
+        <div className="mb-5 flex items-center justify-between">
           <h3 className="text-base font-semibold text-slate-800 dark:text-white">
-            Add Transaction
+            {isEditMode ? "Edit Transaction" : "Add Transaction"}
           </h3>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 text-lg leading-none"
-          >✕</button>
+            className="text-lg leading-none text-slate-400 hover:text-slate-600"
+          >
+            ✕
+          </button>
         </div>
 
         <div className="flex flex-col gap-3">
-
           <div>
-            <label className="text-xs text-slate-500 mb-1 block">Description</label>
+            <label className="mb-1 block text-xs text-slate-500">Description</label>
             <input
               name="description"
               value={form.description}
               onChange={handleChange}
               placeholder="e.g. Swiggy, Salary"
-              className="w-full h-9 px-3 text-sm rounded-xl border border-slate-200
-                         bg-white outline-none focus:border-blue-300 text-slate-700
-                         dark:bg-slate-900 dark:border-slate-700 dark:text-slate-200"
+              className="h-9 w-full rounded-xl border border-slate-200 bg-white px-3 text-xs text-slate-700 outline-none focus:border-blue-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs text-slate-500 mb-1 block">Amount (₹)</label>
+              <label className="mb-1 block text-xs text-slate-500">Amount (₹)</label>
               <input
                 name="amount"
                 type="number"
                 value={form.amount}
                 onChange={handleChange}
                 placeholder="e.g. 500"
-                className="w-full h-9 px-3 text-sm rounded-xl border border-slate-200
-                           bg-white outline-none focus:border-blue-300 text-slate-700
-                           dark:bg-slate-900 dark:border-slate-700 dark:text-slate-200"
+                className="h-9 w-full rounded-xl border border-slate-200 bg-white px-3 text-xs  text-slate-700 outline-none focus:border-blue-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
               />
             </div>
 
             <div>
-              <label className="text-xs text-slate-500 mb-1 block">Type</label>
+              <label className="mb-1 block text-xs text-slate-500">Type</label>
               <select
                 name="type"
                 value={form.type}
                 onChange={handleChange}
-                className="w-full h-9 px-3 text-sm rounded-xl border border-slate-200
-                           bg-white outline-none text-slate-700 cursor-pointer
-                           dark:bg-slate-900 dark:border-slate-700 dark:text-slate-200"
+                className="h-9 w-full cursor-pointer rounded-xl border border-slate-200 bg-white px-3 text-xs  text-slate-700 outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
               >
                 <option value="expense">Expense</option>
                 <option value="income">Income</option>
@@ -102,51 +124,48 @@ export default function AddTransactionModal({ onClose }) {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs text-slate-500 mb-1 block">Category</label>
-              <input
-                name="category"
-                value={form.category}
+              <label className="mb-1 block text-xs text-slate-500">Category</label>
+              <select
+                name="mcc"
+                value={form.mcc}
                 onChange={handleChange}
-                placeholder="e.g. Food, Rent"
-                className="w-full h-9 px-3 text-sm rounded-xl border border-slate-200
-                           bg-white outline-none focus:border-blue-300 text-slate-700
-                           dark:bg-slate-900 dark:border-slate-700 dark:text-slate-200"
-              />
+                className="h-9 w-full cursor-pointer rounded-xl border border-slate-200 bg-white px-3 text-xs  text-slate-700 outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+              >
+                {CATEGORY_OPTIONS.map((option) => (
+                  <option key={option.mcc} value={option.mcc}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div>
-              <label className="text-xs text-slate-500 mb-1 block">Date</label>
+              <label className="mb-1 block text-xs text-slate-500">Date</label>
               <input
                 name="date"
                 type="date"
                 value={form.date}
                 onChange={handleChange}
-                className="w-full h-9 px-3 text-sm rounded-xl border border-slate-200
-                           bg-white outline-none text-slate-700 cursor-pointer
-                           dark:bg-slate-900 dark:border-slate-700 dark:text-slate-200"
+                className="h-9 w-full cursor-pointer rounded-xl border border-slate-200 bg-white px-3 text-xs  text-slate-700 outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
               />
             </div>
           </div>
-
         </div>
 
-        <div className="flex gap-2 mt-5">
+        <div className="mt-5 flex gap-2">
           <button
             onClick={onClose}
-            className="flex-1 py-2 text-sm rounded-xl border border-slate-200
-                       text-slate-500 hover:bg-slate-50 dark:border-slate-700"
+            className="flex-1 rounded-xl border border-slate-200 py-2 text-sm text-slate-500 hover:bg-slate-50 dark:border-slate-700"
           >
             Cancel
           </button>
           <button
             onClick={handleSubmit}
-            className="flex-1 py-2 text-sm rounded-xl bg-blue-600 text-white
-                       hover:bg-blue-700 font-medium transition-colors"
+            className="flex-1 rounded-xl bg-blue-600 py-2 text-sm font-medium text-white hover:bg-blue-700"
           >
-            Add Transaction
+            {isEditMode ? "Save Changes" : "Add Transaction"}
           </button>
         </div>
-
       </div>
     </div>
   );

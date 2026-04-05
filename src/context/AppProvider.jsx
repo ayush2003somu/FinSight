@@ -1,9 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useReducer} from "react";
 import { AppContext } from "./AppContext";
 import { RECENT_TRANSACTIONS } from "../data/mockData";
 
+function transactionReducer(state, action) {
+  switch (action.type) {
+    case 'ADD_TRANSACTION':
+      return [...state, action.payload];
+
+    case 'DELETE_TRANSACTION':
+      return state.filter(t => t.id !== action.payload);
+
+    case 'EDIT_TRANSACTION':
+      return state.map((transaction) =>
+        transaction.id === action.payload.id ? action.payload : transaction
+      );
+
+    default:
+      return state;
+  }
+}
 export const AppProvider = ({ children }) => {
-  const [transactions, setTransactions] = useState(RECENT_TRANSACTIONS);
+  const [transactions,setTransactions] = useReducer(transactionReducer, RECENT_TRANSACTIONS);
   const [admin, setAdminRole] = useState(false);
   const [filter, setFilter] = useState("all"); 
   const [sortBy, setSortBy] = useState("date"); 
@@ -36,6 +53,7 @@ export const AppProvider = ({ children }) => {
       value={{
         transactions,
         setTransactions,
+        dispatch: setTransactions,
         admin,
         setAdminRole,
         filter,

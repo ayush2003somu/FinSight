@@ -4,23 +4,8 @@ import StatCard from "../components/StatCard";
 import TransactionsTable from "../components/TransactionsTable";
 import BarCharts from '../components/BarCharts';
 import SpendingDonut from "../components/PieChart";
-import { MCC_MAP } from '../data/mockData';
 import { PieChart,ChevronsUpDown, ChartColumnBig } from "lucide-react";
-function getTransactionsByDateRange(transactions, selectedPeriod) {
-  const now = new Date();
-  const cutoff = new Date(now);
-  if (selectedPeriod === "1M") {
-    cutoff.setMonth(now.getMonth() - 1);
-  } else if (selectedPeriod === "3M") {
-    cutoff.setMonth(now.getMonth() - 3);
-  } else if (selectedPeriod === "6M") {
-    cutoff.setMonth(now.getMonth() - 6);
-  } else {
-    cutoff.setFullYear(now.getFullYear() - 1);
-  }
-
-  return transactions.filter((transaction) => new Date(transaction.date) >= cutoff);
-}
+import {buildCategoryData, buildMonthlyData, getTransactionsByDateRange,} from "../utils/transactionInsights";
 
 export default function FinTrackDashboard() {
   const { transactions, selectedPeriod, SelectedBar,setBar,} =
@@ -49,29 +34,8 @@ export default function FinTrackDashboard() {
   const savingScore = income === 0 ? 0 : ((income - expenses) / income) * 100;
   const healthScore = Math.min(100, Math.max(0, Math.round(savingScore * 1.5)));
 
-  // Grouping by month for bar charts
-  const monthlyData = filteredTransactionsByDateRange.reduce((acc, t) => {
-  const month = new Date(t.date).toLocaleString('default', { month: 'short' });
-  
-  if (!acc[month]) acc[month] = { month, income: 0, expenses: 0 };
-  
-  if (t.type === 'income') acc[month].income += t.amount;
-  else acc[month].expenses += t.amount;
-  
-  return acc;
-  }, {});
-  const barChartData = Object.values(monthlyData);
-
-  // grouping for pie charts
-  const categoryData = filteredTransactionsByDateRange
-  .filter(t => t.type === 'expense')
-  .reduce((acc, t) => {
-    const categoryName = MCC_MAP[t.mcc] || 'Other';
-    const found = acc.find(item => item.name === categoryName  );
-    if (found) found.value += t.amount;
-    else acc.push({ name: categoryName, value: t.amount });
-    return acc;
-  }, []);
+  const barChartData = buildMonthlyData(filteredTransactionsByDateRange);
+  const categoryData = buildCategoryData(filteredTransactionsByDateRange);
 
   return (
     <div className="min-h-screen bg-slate-100 dark:bg-slate-950 sm: mx-auto flex w-full max-w-[1400px]  border border-slate-200 bg-gray-100 shadow-sm dark:border-slate-800 dark:bg-slate-900 ">
@@ -105,7 +69,7 @@ export default function FinTrackDashboard() {
                   </div>
                   <div className="min-h-[312px] rounded-2xl border border border-slate-300 bg-slate-50/80 p-4 dark:border-slate-700 dark:bg-slate-900/60">  
                      <p className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-4 flex justify-between items-center">
-                    {SelectedBar?`Income vs Expenses`:`Category Wise Spend`}
+                    {SelectedBar?`Cash Flow Momentum`:`Expense Mix`}
                     <button onClick={()=>{
                       setBar(!SelectedBar)
                     }} className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-500 transition-all duration-200 ease-in-out hover:bg-slate-50 hover:text-slate-700 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100">

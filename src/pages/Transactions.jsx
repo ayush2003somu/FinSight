@@ -2,16 +2,17 @@ import { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContext';
 import TransactionsTable from '../components/TransactionsTable';
 import { MCC_MAP } from '../data/mockData';
-import { Download,X } from 'lucide-react';
-// import AddTransactionModal from '../components/AddTransactionModal';
+import { Download } from 'lucide-react';
+import AddTransactionModal from '../components/AddTransactionModel';
 
 export default function Transactions() {
-  const { transactions, admin } = useContext(AppContext);
+  const { transactions, admin, dispatch } = useContext(AppContext);
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [editingTransaction, setEditingTransaction] = useState(null);
 
     let result = transactions.filter(t =>
     t.description.toLowerCase().includes(search.toLowerCase())
@@ -58,10 +59,30 @@ const csvContent = [
   const a = document.createElement('a');
   a.href = url;
   a.download = 'transactions.csv';
-  a.click();
+    a.click();
 
   URL.revokeObjectURL(url); // cleanup
 }
+
+function handleOpenAddModal() {
+    setEditingTransaction(null);
+    setShowModal(true);
+  }
+
+function handleOpenEditModal(transaction) {
+    setEditingTransaction(transaction);
+    setShowModal(true);
+  }
+
+function handleCloseModal() {
+    setEditingTransaction(null);
+    setShowModal(false);
+  }
+
+  function handleDeleteTransaction(id) {
+    dispatch({ type: 'DELETE_TRANSACTION', payload: id });
+  }
+
    return (
     <div className="p-6">
 
@@ -72,7 +93,7 @@ const csvContent = [
         </div>
         {admin && (
           <button
-            onClick={() => setShowModal(true)}
+            onClick={handleOpenAddModal}
             className="text-sm font-medium bg-blue-50 text-blue-700 border border-blue-200
                        rounded-xl px-4 py-2 md:px-4 md:py-2 hover:bg-blue-100 dark:bg-blue-950 dark:text-blue-400 hover:text-blue-900 dark:hover:bg-blue-900 dark:hover:text-white"
           >
@@ -169,10 +190,18 @@ const csvContent = [
             </button>
             )}
       </div>
-      <TransactionsTable transactions={result} />
+      <TransactionsTable
+        transactions={result}
+        onEdit={handleOpenEditModal}
+        onDelete={handleDeleteTransaction}
+      />
 
-      {showModal && <AddTransactionModal onClose={() => setShowModal(false)} />}
+      {showModal && (
+        <AddTransactionModal
+          onClose={handleCloseModal}
+          transactionToEdit={editingTransaction}
+        />
+      )}
     </div>
   );
 }
-

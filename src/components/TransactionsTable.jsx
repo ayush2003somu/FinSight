@@ -28,7 +28,7 @@ const SortIcon = ({ active, order }) => {
   );
 };
 
-const TransactionsTable = ({ transactions }) => {
+const TransactionsTable = ({ transactions, onEdit, onDelete }) => {
   const { filter, setFilter, sortBy, setSortBy, order, setOrder,admin } =
     useContext(AppContext);
 
@@ -56,6 +56,7 @@ const TransactionsTable = ({ transactions }) => {
     return 0;
   });
   transactions = sortedTransactions;
+  const showAdminActions = admin && onEdit && onDelete;
   return (
     <section className="mt-6 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 p-4 dark:border-slate-800">
@@ -91,6 +92,9 @@ const TransactionsTable = ({ transactions }) => {
           <table className="w-full min-w-[720px] border-collapse text-left">
         <thead className="sticky top-0 z-10 bg-slate-50 dark:bg-slate-800">
               <tr>
+                {showAdminActions && <th className="px-6 py-4 text-sm font-semibold text-slate-500 dark:text-slate-400">
+                  ACTION
+                </th>}
                 <th className="px-6 py-4 text-sm font-semibold text-slate-500 dark:text-slate-400">
                <button
                     type="button"
@@ -120,10 +124,6 @@ const TransactionsTable = ({ transactions }) => {
                <th className="px-6 py-4 text-sm font-semibold text-slate-500 dark:text-slate-400">
                   STATUS
                 </th>
-
-                {admin && <th className="px-6 py-4 text-sm font-semibold text-slate-500 dark:text-slate-400">
-                  ACTION
-                </th>}
               </tr>
             </thead>
 
@@ -133,6 +133,23 @@ const TransactionsTable = ({ transactions }) => {
                   key={transaction.id}
                   className="transition-all duration-200 ease-in-out hover:bg-slate-50 dark:hover:bg-slate-800/60"
                 >
+                  {showAdminActions && (
+              <td className="flex p-2 mt-4">
+                    <button
+                      onClick={() => onEdit(transaction)}
+                      className="text-xs px-2.5 py-1 rounded-lg border border-slate-200
+                                      text-slate-500 hover:bg-slate-50 mr-2">
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => onDelete(transaction.id)}
+                      className="text-xs px-2.5 py-1 rounded-lg border border-rose-200
+                                text-rose-500 hover:bg-rose-50"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                )}
                   <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">
                     {transaction.date}
                   </td>
@@ -165,21 +182,6 @@ const TransactionsTable = ({ transactions }) => {
                       {transaction.type}
                     </span>
               </td>
-              {admin && (
-              <td className="flex p-2 mt-4">
-                    <button className="text-xs px-2.5 py-1 rounded-lg border border-slate-200
-                                      text-slate-500 hover:bg-slate-50 mr-2">
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => dispatch({ type: 'DELETE_TRANSACTION', payload: t.id })}
-                      className="text-xs px-2.5 py-1 rounded-lg border border-rose-200
-                                text-rose-500 hover:bg-rose-50"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                )}
                 </tr>
               ))}
             </tbody>

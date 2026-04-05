@@ -13,7 +13,7 @@ function NavBar() {
       </h1>
       <div className="flex justify-between items-center gap-4">
         {
-        currentPage==="dashboard"?
+        currentPage!=="transactions"?
         <div className="flex justify-between w-full sm:w-auto rounded-xl border border-slate-200 bg-slate-50 p-1 shadow-sm dark:border-slate-700 dark:bg-slate-800">
             {periodOptions.map((option) => {
               const isActive = selectedPeriod === option;
@@ -34,7 +34,6 @@ function NavBar() {
               );
             })}
         </div>:
-        currentPage==="transactions"?  
             <div className="flex items-center gap-2">
             <button
             value={admin?'admin':'viewer'}
@@ -43,7 +42,7 @@ function NavBar() {
                         dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 hover:text-gray-900 hover:bg-gray-100  dark:hover:bg-slate-600"
             ><div className="flex items-center">{admin?'Admin':'Viewer'}<ChevronsUpDown size={15}/></div>
             </button>
-         </div>:''
+         </div>
 }
         <button
           type="button"
