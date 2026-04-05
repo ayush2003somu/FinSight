@@ -29,6 +29,7 @@ export default function BarCharts({data}){
     );
   }
   return (
+    
     <ResponsiveContainer width="100%" height={175}>
       <BarChart data={data} barGap={4} barCategoryGap="10%">
         <XAxis
