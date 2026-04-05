@@ -12,7 +12,7 @@ export const AppProvider = ({ children }) => {
   const [selectedPeriod,setPeriod] = useState('1M');
   const [SelectedBar,setBar] = useState(true);
   const [currentPage, setCurrentPage] = useState("dashboard");
-  const [isOpen,setIsOpen] = useState("true");
+  const [isOpen,setIsOpen] = useState(true);
 
   // this is done so that browser remember's the user preference(dark or light);
   const [isDark, setIsDark] = useState(() => {

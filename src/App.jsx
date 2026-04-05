@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { AppContext } from "./context/AppContext";
 import SideBar from "./components/SideBar";
 import NavBar from "./components/NavBar";
+import BottomNav from "../src/components/BottomNav";
 function App() {
   const {currentPage} = useContext(AppContext);
   return (
@@ -16,6 +17,7 @@ function App() {
       {currentPage==='dashboard'?
       <Dashboard />:<Transactions/>}
       </main>
+      <BottomNav/>
     </div>
   </div>
   );

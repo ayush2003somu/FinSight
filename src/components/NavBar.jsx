@@ -9,12 +9,6 @@ function NavBar() {
 
   return (
     <header className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200 bg-white/80 px-6 py-4 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/80 lg:px-8">
-        <button 
-        onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden p-2"
-        >
-        ☰
-        </button>
       <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
         Financial Overview
       </h1>
