@@ -2,12 +2,10 @@ import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import StatCard from "../components/StatCard";
 import TransactionsTable from "../components/TransactionsTable";
-import NavBar from "../components/NavBar";
-import SideBar from "../components/SideBar";
 import BarCharts from '../components/BarCharts';
 import SpendingDonut from "../components/PieChart";
 import { MCC_MAP } from '../data/mockData';
-import { PieChart } from "lucide-react";
+import { PieChart,ChevronsUpDown, ChartColumnBig } from "lucide-react";
 function getTransactionsByDateRange(transactions, selectedPeriod) {
   const now = new Date();
   const cutoff = new Date(now);
@@ -25,7 +23,7 @@ function getTransactionsByDateRange(transactions, selectedPeriod) {
 }
 
 export default function FinTrackDashboard() {
-  const { transactions, filter, sortBy, order, selectedPeriod, SelectedBar,setBar} =
+  const { transactions, selectedPeriod, SelectedBar,setBar,} =
     useContext(AppContext);
 
   const filteredTransactionsByDateRange = getTransactionsByDateRange(
@@ -75,33 +73,9 @@ export default function FinTrackDashboard() {
     return acc;
   }, []);
 
-  const filteredTransactions =
-    filter === "all"
-      ? filteredTransactionsByDateRange
-      : filteredTransactionsByDateRange.filter(
-          (transaction) => transaction.type === filter,
-        );
-
-  const sortedTransactions = [...filteredTransactions].sort((a, b) => {
-    if (sortBy === "amount") {
-      return order === "asc" ? a.amount - b.amount : b.amount - a.amount;
-    }
-
-    if (sortBy === "date") {
-      return order === "asc"
-        ? new Date(a.date) - new Date(b.date)
-        : new Date(b.date) - new Date(a.date);
-    }
-
-    return 0;
-  });
-
   return (
-    <div className="min-h-screen bg-slate-100 px-4 py-6 dark:bg-slate-950 sm:px-6">
-      <div className="mx-auto flex w-full max-w-[1400px] overflow-hidden rounded-2xl border border-slate-200 bg-gray-100 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-        <SideBar />
+    <div className="min-h-screen bg-slate-100 dark:bg-slate-950 sm: mx-auto flex w-full max-w-[1400px]  border border-slate-200 bg-gray-100 shadow-sm dark:border-slate-800 dark:bg-slate-900 ">
         <main className="flex-1 overflow-y-auto">
-          <NavBar />
           <div className="mx-auto max-w-7xl p-6 lg:p-8">
             <header className="mb-6">
               <p className="text-sm text-slate-500 dark:text-slate-400">
@@ -131,10 +105,12 @@ export default function FinTrackDashboard() {
                   </div>
                   <div className="min-h-[312px] rounded-2xl border border border-slate-300 bg-slate-50/80 p-4 dark:border-slate-700 dark:bg-slate-900/60">  
                      <p className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-4 flex justify-between items-center">
-                    {SelectedBar?`Income vs Expenses`:`PieChart`}
+                    {SelectedBar?`Income vs Expenses`:`Category Wise Spend`}
                     <button onClick={()=>{
                       setBar(!SelectedBar)
-                    }} className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-500 transition-all duration-200 ease-in-out hover:bg-slate-50 hover:text-slate-700 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100">Pie Chart</button>
+                    }} className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-500 transition-all duration-200 ease-in-out hover:bg-slate-50 hover:text-slate-700 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100">
+                    <span className="flex items-center gap-2">  {SelectedBar?<PieChart/>:<ChartColumnBig  />}<ChevronsUpDown size={20} /></span>
+                    </button>
                     </p>
                   {SelectedBar?<div className="bg-white border border-slate-200 rounded-2xl p-5
                   dark:bg-slate-800 dark:border-slate-700">
@@ -147,10 +123,9 @@ export default function FinTrackDashboard() {
                     }
                   </div>
         </section>
-            <TransactionsTable transactions={sortedTransactions} />
+            <TransactionsTable transactions={filteredTransactionsByDateRange} showViewAll={true} />
           </div>
         </main>
       </div>
-    </div>
   );
 }

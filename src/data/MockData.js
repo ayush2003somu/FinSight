@@ -48,6 +48,7 @@ export const RECENT_TRANSACTIONS = [
   { id: 43, date: '2026-03-19', mcc: '5912', amount: 700, type: 'expense', description: '1mg' }, // Medical
   { id: 44, date: '2026-03-21', mcc: '7832', amount: 950, type: 'expense', description: 'BookMyShow' }, // Entertainment
 ];
+
 export const MCC_MAP = {
   "5411": "Groceries",
   "5812": "Food & Dining",
