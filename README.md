@@ -1,16 +1,127 @@
-# React + Vite
+# FinSight Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a small finance dashboard built with React and Vite. I made it as part of a frontend screening assignment for an internship role in a fintech startup.
 
-Currently, two official plugins are available:
+The idea behind the app is simple: show a clean overview of transactions, balances, spending patterns, and a few useful insights without making the interface feel too heavy.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## What the app does
 
-## React Compiler
+- Dashboard page with balance, income, expenses, and saving score
+- Period-based filtering for `1M`, `3M`, and `6M`
+- Transaction table with filter and sorting
+- Insights page with spending breakdown and trend-based summaries
+- Admin mode for adding, editing, and deleting transactions
+- CSV export on the transactions page
+- Dark mode toggle
+- Responsive sidebar / bottom navigation setup
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech used
 
-## Expanding the ESLint configuration
+- React
+- Vite
+- Tailwind CSS
+- Lucide React
+- Recharts
+- Firebase Hosting config for deployment
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Project structure
+
+```bash
+src/
+  components/
+  config/
+  context/
+  data/
+  pages/
+  utils/
+```
+
+Main parts of the app:
+
+- `src/pages/Dashboard.jsx` for the overview screen
+- `src/pages/Transactions.jsx` for full transaction management
+- `src/pages/Insights.jsx` for patterns and summaries
+- `src/context/AppProvider.jsx` for shared app state
+- `src/components/AddTransactionModel.jsx` for add/edit transaction modal
+
+## Running locally
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the dev server:
+
+```bash
+npm run dev
+```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+Run lint:
+
+```bash
+npm run lint
+```
+
+Preview the production build:
+
+```bash
+npm run preview
+```
+
+## Admin mode
+
+There are two modes in the app:
+
+- `Viewer` mode for normal browsing
+- `Admin` mode for managing transactions
+
+In admin mode, the user can:
+
+- add a new transaction
+- edit an existing transaction
+- delete a transaction
+
+## Notes
+
+- The app currently uses mock transaction data stored locally.
+- Category names are mapped using MCC codes.
+- Firebase hosting is configured with `dist` as the public build folder.
+
+## What I focused on
+
+For this assignment, I mainly focused on:
+
+- clean UI
+- readable component structure
+- practical state handling with context
+- simple transaction CRUD flow
+- useful financial summaries and charts
+
+## Possible improvements
+
+If I continue this project further, the next things I would improve are:
+
+- persist transactions in a backend or database
+- add authentication for admin actions
+- improve form validation
+- add tests
+- optimize the larger production bundle
+
+## Deployment
+
+The project includes a basic `firebase.json`, so it can be deployed on Firebase Hosting after building the app.
+
+Typical flow:
+
+```bash
+npm run build
+firebase deploy
+```
