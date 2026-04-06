@@ -14,7 +14,6 @@ dist-ssr
 .firebase/
 .firebaserc
 404.html
-firebase.json
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
