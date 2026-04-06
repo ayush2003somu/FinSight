@@ -1,6 +1,9 @@
 import { useContext } from "react";
 import { Moon, Sun, Wallet, ChevronsUpDown } from "lucide-react";
 import { AppContext } from "../context/AppContext";
+import lightlogo from "../media/logo1.png"
+import darklogo from "../media/logo2.png"
+
 const periodOptions = ["1M", "3M", "6M"];
 
 function NavBar() {
@@ -9,7 +12,8 @@ function NavBar() {
   return (
     <header className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200 bg-white/80 px-6 py-4 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/80 lg:px-8">
     <h1 className="flex gap-2 items-center text-sm md:text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 ">
-       <Wallet/> <span className="hidden md:inline">Financial Overview</span>
+             {isDark?<img src={darklogo} alt="logo"className="lg:hidden" height={25} width={25} />:<img src={lightlogo} alt="logo" className="lg:hidden" height={25} width={25} />}
+              <span className="hidden md:inline">Financial Overview</span>
       </h1>
       <div className="flex justify-between items-center gap-4">
         {
@@ -38,9 +42,10 @@ function NavBar() {
             <button
             value={admin?'admin':'viewer'}
             onClick={() => setAdminRole(!admin)}
-            className="text-sm px-3 py-1.5 rounded-xl text-gray-600 border border-slate-200 bg-white outline-none cursor-pointer
-                        dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 hover:text-gray-900 hover:bg-gray-100  dark:hover:bg-slate-600"
-            ><div className="flex items-center">{admin?'Admin':'Viewer'}<ChevronsUpDown size={15}/></div>
+            className={`text-sm p-2 px-3 rounded-xl  ${admin?'text-blue-600 dark:text-slate-800 dark:bg-blue-400 dark:hover:text-slate-100':'text-slate-600 dark:text-slate-400 hover:text-gray-600'} 
+            border border-slate-200 bg-white outline-none cursor-pointer
+            dark:bg-slate-800 dark:border-slate-700 hover:bg-gray-100  dark:hover:bg-slate-700`}
+            ><div className="flex items-center gap-1">{admin?'Admin':'Viewer'}<ChevronsUpDown size={15}/></div>
             </button>
          </div>
 }
