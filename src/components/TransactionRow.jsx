@@ -41,8 +41,6 @@ export function TransactionRow({ transaction: t, role, formatDate }) {
           {t.type}
         </span>
       </td>
-
-      {/* Admin only actions */}
       {role === 'admin' && (
         <td className="px-4 py-3">
           <button className="text-xs px-2.5 py-1 rounded-lg border border-slate-200

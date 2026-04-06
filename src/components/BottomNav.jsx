@@ -20,7 +20,7 @@ function BottomNav() {
               isActive ? "text-purple-600" : "text-slate-400"
             }`}
           >
-            <Icon size={20} />
+           { Icon && <Icon  Icon size={20} />}
             <span>{name}</span>
           </button>
         );

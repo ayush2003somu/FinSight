@@ -1,6 +1,7 @@
 import Dashboard from "./pages/Dashboard";
 import { AppProvider } from "./context/AppProvider";
 import Transactions from './pages/Transactions';
+import Insights from "./pages/Insights";
 import { useContext } from "react";
 import { AppContext } from "./context/AppContext";
 import SideBar from "./components/SideBar";
@@ -14,8 +15,13 @@ function App() {
         <SideBar />
         <main className="flex-1 overflow-y-auto">
           <NavBar />
-      {currentPage==='dashboard'?
-      <Dashboard />:<Transactions/>}
+      {currentPage === 'dashboard' ? (
+        <Dashboard />
+      ) : currentPage === 'transactions' ? (
+        <Transactions />
+      ) : (
+        <Insights />
+      )}
       </main>
       <BottomNav/>
     </div>

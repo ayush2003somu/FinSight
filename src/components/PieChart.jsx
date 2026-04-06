@@ -56,8 +56,8 @@ export default function SpendingDonut({ data }) {
           {data.map((entry, index) => (
             <Cell
              key={entry.name} 
-            fill={COLORS[index % COLORS.length]}
-            className="cursor-pointer"
+             fill={COLORS[index % COLORS.length]}
+             className="cursor-pointer"
              />
           ))}
         </Pie>
@@ -65,7 +65,7 @@ export default function SpendingDonut({ data }) {
         <Legend
           iconType="circle"
           iconSize={8}
-          wrapperStyle={{ fontSize: '12px' }}
+          wrapperStyle={{fontSize: '12px' }}
         />
       </PieChart>
     </ResponsiveContainer>
